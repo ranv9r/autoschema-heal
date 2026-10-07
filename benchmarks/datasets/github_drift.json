@@ -1,0 +1,35 @@
+{
+  "scenario": "GitHub Webhook Delivery Drift",
+  "description": "Migration from flat event payload to deeply nested GraphQL-style event envelope.",
+  "target_schema": {
+    "title": "CanonicalGitHubEvent",
+    "type": "object",
+    "properties": {
+      "event_id": { "type": "string" },
+      "repo_name": { "type": "string" },
+      "actor": { "type": "string" },
+      "timestamp": { "type": "string" }
+    },
+    "required": ["event_id", "repo_name", "actor", "timestamp"]
+  },
+  "canonical_sample": {
+    "event_id": "evt_8832",
+    "repo_name": "kubernetes/kubernetes",
+    "actor": "octocat",
+    "timestamp": "2026-10-06T12:00:00Z"
+  },
+  "drifted_samples": [
+    {
+      "delivery_id": "deliv_991823",
+      "repository": {
+        "full_name": "kubernetes/kubernetes",
+        "private": false
+      },
+      "sender": {
+        "login": "octocat",
+        "id": 583231
+      },
+      "created_at": "2026-10-06T12:00:00Z"
+    }
+  ]
+}

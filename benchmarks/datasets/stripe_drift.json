@@ -1,0 +1,41 @@
+{
+  "scenario": "Stripe Webhook API Drift v2 -> v3",
+  "description": "Restructuring of charge object: flattening of customer details, cents conversion, and timestamp epoch format.",
+  "target_schema": {
+    "title": "CanonicalPayment",
+    "type": "object",
+    "properties": {
+      "transaction_id": { "type": "string" },
+      "customer_email": { "type": "string" },
+      "amount_usd": { "type": "number" },
+      "created_at": { "type": "string" }
+    },
+    "required": ["transaction_id", "customer_email", "amount_usd", "created_at"]
+  },
+  "canonical_sample": {
+    "transaction_id": "tx_legacy_1001",
+    "customer_email": "customer@acme.com",
+    "amount_usd": 49.99,
+    "created_at": "2026-10-06T12:00:00Z"
+  },
+  "drifted_samples": [
+    {
+      "charge_id": "ch_3M001_v3",
+      "user": { "email": "customer@acme.com" },
+      "amount_cents": 4999,
+      "timestamp_epoch": 1700000000
+    },
+    {
+      "charge_id": "ch_3M002_v3",
+      "user": { "email": "alice@startup.io" },
+      "amount_cents": 12500,
+      "timestamp_epoch": 1700001000
+    },
+    {
+      "charge_id": "ch_3M003_v3",
+      "user": { "email": "bob@fintech.dev" },
+      "amount_cents": 750,
+      "timestamp_epoch": 1700002000
+    }
+  ]
+}

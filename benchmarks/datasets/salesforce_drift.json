@@ -1,0 +1,35 @@
+{
+  "scenario": "Salesforce CRM Lead/Opportunity Drift",
+  "description": "Enterprise CRM payload shift: PascalCase attributes, stringified numeric amounts, stage mapping.",
+  "target_schema": {
+    "title": "CanonicalOpportunity",
+    "type": "object",
+    "properties": {
+      "record_id": { "type": "string" },
+      "account_name": { "type": "string" },
+      "stage": { "type": "string" },
+      "revenue": { "type": "number" }
+    },
+    "required": ["record_id", "account_name", "stage", "revenue"]
+  },
+  "canonical_sample": {
+    "record_id": "SF_9901",
+    "account_name": "Global Corp",
+    "stage": "Prospecting",
+    "revenue": 50000.0
+  },
+  "drifted_samples": [
+    {
+      "Id": "0015000000Gv7sW",
+      "Name": "Global Corp",
+      "StageName": "Qualification",
+      "Amount": "75000.00"
+    },
+    {
+      "Id": "0015000000Gv7sX",
+      "Name": "Initech Systems",
+      "StageName": "Closed Won",
+      "Amount": "120000.50"
+    }
+  ]
+}
