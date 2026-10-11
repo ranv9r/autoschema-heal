@@ -1,8 +1,8 @@
 """
-Formal Invariants Verification Engine (I_exec, I_type, I_integrity, I_idempotence).
+Property Invariant Checker (I_exec, I_type, I_integrity, I_idempotence).
 
-Every candidate program synthesized by the untrusted search engine must pass
-all four invariants before being admitted to adversarial fuzzing.
+Every candidate JQ program produced by the LLM synthesizer must pass
+all four checks before being admitted to the adversarial fuzzer.
 """
 
 from __future__ import annotations
@@ -27,7 +27,8 @@ class InvariantResult:
 
 class InvariantVerifier:
     """
-    Formal Invariant Verifier that checks the 4 non-negotiable invariants on candidate JQ programs.
+    Runs the 4 property checks on candidate JQ programs in strict order.
+    A program must pass all 4 to be promoted to the fast-path bytecode cache.
     """
 
     FORBIDDEN_JQ_TOKENS = [
@@ -190,12 +191,12 @@ class InvariantVerifier:
 
     def evaluate_all(self, jq_source: str, sample_payload: Any) -> Tuple[bool, List[InvariantResult]]:
         """
-        Evaluates candidate program against all 4 invariants in strict order:
-        1. I_idempotence (AST check)
-        2. I_exec (Sandboxed execution)
-        3. I_type (Schema conformance)
-        4. I_integrity (Zero data loss / data integrity)
-        5. I_idempotence (Replay check)
+        Runs all 4 property checks against a candidate JQ program in strict order:
+        1. I_idempotence (static AST token scan)
+        2. I_exec (sandboxed execution with time budget)
+        3. I_type (schema conformance)
+        4. I_integrity (data retention ratio check)
+        5. I_idempotence (deterministic replay)
         """
         results: List[InvariantResult] = []
 

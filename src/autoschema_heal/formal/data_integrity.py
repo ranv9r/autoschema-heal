@@ -1,9 +1,9 @@
 """
-Data Integrity & Lossless Transformation Verifier (I_integrity).
+Data Retention Checker (I_integrity).
 
-Guarantees zero data loss: validates that synthesized transformation filters
-legitimately retain actual upstream source data rather than replacing fields
-with hardcoded dummy defaults or dropping non-null records.
+Checks that synthesized JQ filters map output field values back to real
+source data, rather than filling them with hardcoded dummy defaults or
+dropping non-null fields entirely.
 """
 
 from __future__ import annotations
@@ -107,9 +107,9 @@ def are_scalars_semantically_linked(src_val: Any, tgt_val: Any) -> bool:
 
 class DataIntegrityVerifier:
     """
-    Validates Data Integrity & Lossless Transformation (I_integrity).
-    Ensures that the candidate transformation legitimately retains upstream
-    information rather than hallucinating dummy defaults or dropping non-null fields.
+    Computes and checks the data retention ratio for a candidate JQ transformation.
+    Rejects programs that fill output fields with hardcoded dummy constants
+    (e.g., "unknown", 0.0) while the source payload contains real data.
     """
 
     def __init__(self, default_threshold: float = 0.70) -> None:

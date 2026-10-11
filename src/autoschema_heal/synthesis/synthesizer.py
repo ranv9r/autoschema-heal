@@ -88,7 +88,7 @@ class CEGISSynthesizer:
 
         prompt_parts.extend([
             "",
-            "### CANDIDATE PURE JQ FILTER (Raw code only):",
+            "### CANDIDATE PURE JQ FILTER (compact, raw code only, no explanation, no markdown fences):",
         ])
         return "\n".join(prompt_parts)
 
